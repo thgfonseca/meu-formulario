@@ -3,123 +3,281 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Formulário de Teste</title>
+  <title>Formulário</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0ede8;
+      --card: #ffffff;
+      --accent: #2a5c45;
+      --accent-light: #e8f0ec;
+      --text: #1a1a1a;
+      --muted: #7a7a7a;
+      --border: #ddd8d0;
+      --error: #c0392b;
+      --error-bg: #fdf0ee;
+      --success: #2a5c45;
+      --success-bg: #e8f0ec;
+      --radius: 12px;
+    }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(42,92,69,0.07) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(42,92,69,0.05) 0%, transparent 50%);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 24px;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 460px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .card {
-      background: white;
-      border-radius: 16px;
-      padding: 40px;
-      width: 100%;
-      max-width: 480px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 44px 40px 40px;
+      box-shadow:
+        0 1px 2px rgba(0,0,0,0.04),
+        0 8px 32px rgba(0,0,0,0.08),
+        0 0 0 1px rgba(0,0,0,0.04);
+    }
+
+    .header {
+      margin-bottom: 36px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 14px;
     }
 
     h1 {
-      font-size: 1.6rem;
-      color: #2d2d2d;
-      margin-bottom: 8px;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.75rem;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 6px;
     }
 
-    p.subtitle {
-      color: #888;
-      margin-bottom: 32px;
-      font-size: 0.95rem;
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 28px;
+    }
+
+    .field {
+      margin-bottom: 22px;
     }
 
     label {
       display: block;
+      font-size: 0.82rem;
       font-weight: 600;
-      color: #444;
-      margin-bottom: 6px;
-      font-size: 0.9rem;
+      color: var(--text);
+      letter-spacing: 0.03em;
+      margin-bottom: 7px;
+    }
+
+    label span.required {
+      color: var(--accent);
+      margin-left: 2px;
     }
 
     input, select {
       width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e8e8e8;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: border-color 0.2s;
-      color: #333;
-      margin-bottom: 24px;
-      background: #fafafa;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: #faf9f7;
+      transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+      appearance: none;
+      -webkit-appearance: none;
     }
+
+    input::placeholder { color: #b0a898; }
 
     input:focus, select:focus {
       outline: none;
-      border-color: #667eea;
-      background: white;
+      border-color: var(--accent);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(42,92,69,0.1);
+    }
+
+    input.invalid {
+      border-color: var(--error);
+      background: var(--error-bg);
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.08);
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--muted);
+      pointer-events: none;
+    }
+
+    .field-error {
+      display: block;
+      color: var(--error);
+      font-size: 0.78rem;
+      margin-top: 5px;
+      min-height: 16px;
+      font-weight: 500;
     }
 
     button {
       width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
+      padding: 13px;
+      background: var(--accent);
+      color: #fff;
       border: none;
-      border-radius: 10px;
-      font-size: 1rem;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
+      margin-top: 8px;
+      transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+      letter-spacing: 0.02em;
     }
 
-    button:hover { opacity: 0.92; transform: translateY(-1px); }
-    button:active { transform: translateY(0); }
-    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    button:hover:not(:disabled) {
+      background: #22503b;
+      box-shadow: 0 4px 16px rgba(42,92,69,0.25);
+      transform: translateY(-1px);
+    }
+
+    button:active:not(:disabled) { transform: translateY(0); }
+
+    button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
 
     .msg {
-      margin-top: 20px;
+      margin-top: 16px;
       padding: 12px 16px;
-      border-radius: 10px;
-      font-size: 0.95rem;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 500;
       display: none;
+      align-items: center;
+      gap: 8px;
     }
 
-    .msg.success { background: #e8f5e9; color: #2e7d32; display: block; }
-    .msg.error   { background: #fce4ec; color: #c62828; display: block; }
+    .msg.success {
+      display: flex;
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid rgba(42,92,69,0.2);
+    }
+
+    .msg.error {
+      display: flex;
+      background: var(--error-bg);
+      color: var(--error);
+      border: 1px solid rgba(192,57,43,0.15);
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #b0a898;
+      font-size: 0.75rem;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>📋 Formulário de Teste</h1>
-    <p class="subtitle">Preencha os campos abaixo e envie</p>
+  <div class="wrapper">
+    <div class="card">
+      <div class="header">
+        <div class="badge">Formulário</div>
+        <h1>Envie suas informações</h1>
+        <p class="subtitle">Preencha os campos abaixo. Todos são obrigatórios.</p>
+      </div>
+      <div class="divider"></div>
 
-    <label for="nome">Seu Nome</label>
-    <input type="text" id="nome" placeholder="Digite seu nome..." />
+      <div class="field">
+        <label for="nome">Nome completo <span class="required">*</span></label>
+        <input type="text" id="nome" placeholder="Digite seu nome..." />
+        <span class="field-error" id="erroNome"></span>
+      </div>
 
-    <label for="opcao">Escolha uma Opção</label>
-    <select id="opcao">
-      <option value="">Carregando opções...</option>
-    </select>
+      <div class="field">
+        <label for="email">E-mail <span class="required">*</span></label>
+        <input type="email" id="email" placeholder="seu@email.com" />
+        <span class="field-error" id="erroEmail"></span>
+      </div>
 
-    <button id="btnEnviar" onclick="enviar()">Enviar</button>
+      <div class="field">
+        <label for="opcao">Opção <span class="required">*</span></label>
+        <div class="select-wrap">
+          <select id="opcao">
+            <option value="">Carregando opções...</option>
+          </select>
+        </div>
+        <span class="field-error" id="erroOpcao"></span>
+      </div>
 
-    <div class="msg" id="msg"></div>
+      <button id="btnEnviar" onclick="enviar()">Enviar</button>
+
+      <div class="msg" id="msg"></div>
+    </div>
+    <p class="footer-note">Seus dados são salvos com segurança.</p>
   </div>
 
   <script>
     const API = "https://script.google.com/macros/s/AKfycbzklTw0R9fv8d1ExgfQ93VqKFP7Hq0GqHtJUB_7XUiryKneFHXykMaNeUs-bOsaRD9M/exec";
 
-    // Carrega opções do Sheets ao abrir a página
-    async function carregarOpcoes() {
-      try {
-        const res = await fetch(`${API}?action=getOptions`);
-        const data = await res.json();
-        const sel = document.getElementById("opcao");
+    function carregarOpcoes() {
+      const sel = document.getElementById("opcao");
+      sel.innerHTML = '<option value="">Carregando...</option>';
+
+      const script = document.createElement("script");
+      window._jsonpCallback = function(data) {
         sel.innerHTML = '<option value="">Selecione...</option>';
         data.options.forEach(op => {
           const opt = document.createElement("option");
@@ -127,27 +285,60 @@
           opt.textContent = op;
           sel.appendChild(opt);
         });
-      } catch {
-        document.getElementById("opcao").innerHTML =
-          '<option value="">Erro ao carregar</option>';
-      }
+        document.body.removeChild(script);
+      };
+
+      script.src = `${API}?action=getOptions&callback=_jsonpCallback`;
+      document.body.appendChild(script);
     }
 
-    // Envia dados para o Sheets
+    function validarEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function limparErros() {
+      ["erroNome", "erroEmail", "erroOpcao"].forEach(id => {
+        document.getElementById(id).textContent = "";
+      });
+      ["nome", "email"].forEach(id => {
+        document.getElementById(id).classList.remove("invalid");
+      });
+    }
+
     async function enviar() {
       const nome  = document.getElementById("nome").value.trim();
+      const email = document.getElementById("email").value.trim();
       const opcao = document.getElementById("opcao").value;
       const msg   = document.getElementById("msg");
       const btn   = document.getElementById("btnEnviar");
 
       msg.className = "msg";
-      msg.style.display = "none";
+      limparErros();
 
-      if (!nome || !opcao) {
-        msg.textContent = "⚠️ Preencha todos os campos antes de enviar.";
-        msg.className = "msg error";
-        return;
+      let valido = true;
+
+      if (!nome) {
+        document.getElementById("erroNome").textContent = "⚠️ Informe seu nome.";
+        document.getElementById("nome").classList.add("invalid");
+        valido = false;
       }
+
+      if (!email) {
+        document.getElementById("erroEmail").textContent = "⚠️ Informe seu e-mail.";
+        document.getElementById("email").classList.add("invalid");
+        valido = false;
+      } else if (!validarEmail(email)) {
+        document.getElementById("erroEmail").textContent = "⚠️ E-mail inválido. Ex: nome@dominio.com";
+        document.getElementById("email").classList.add("invalid");
+        valido = false;
+      }
+
+      if (!opcao) {
+        document.getElementById("erroOpcao").textContent = "⚠️ Selecione uma opção.";
+        valido = false;
+      }
+
+      if (!valido) return;
 
       btn.disabled = true;
       btn.textContent = "Enviando...";
@@ -155,14 +346,15 @@
       try {
         await fetch(API, {
           method: "POST",
-          body: JSON.stringify({ nome, opcao })
+          body: JSON.stringify({ nome, email, opcao })
         });
-        msg.textContent = "✅ Enviado com sucesso! Obrigado.";
+        msg.innerHTML = "✅ Enviado com sucesso! Obrigado.";
         msg.className = "msg success";
         document.getElementById("nome").value = "";
+        document.getElementById("email").value = "";
         document.getElementById("opcao").value = "";
       } catch {
-        msg.textContent = "❌ Erro ao enviar. Tente novamente.";
+        msg.innerHTML = "❌ Erro ao enviar. Tente novamente.";
         msg.className = "msg error";
       } finally {
         btn.disabled = false;
